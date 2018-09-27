@@ -13,8 +13,6 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<User, Long> {
     User findByAgeGreaterThan(Integer age);
 
-    List<User> findByNameLike(String name);
-
     @Query(value = "update user set name=?1 where id=?2",nativeQuery = true)
     @Modifying
     int updateById(String name, int id);
@@ -22,5 +20,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("from User u where u.name=:name")
     User findUser(@Param("name") String name);
 
+    List<User> findByNameIsLike(String name);
 
 }
