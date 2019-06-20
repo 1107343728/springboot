@@ -97,6 +97,12 @@
             <artifactId>joda-time</artifactId>
             <version>2.9.2</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.hazelcast</groupId>
+            <artifactId>hazelcast-spring</artifactId>
+        </dependency>
+
     </dependencies>
 
 	<build>
