@@ -272,6 +272,7 @@ public final class ImageUtil {
         System.out.println("tmpdir = " + tmpdir);
         System.out.println(Location.LEFT_BOTTOM.code);
         System.out.println(getFileFormat("D:\\pictrue\\ab.jpg"));
+
     }
 
 
