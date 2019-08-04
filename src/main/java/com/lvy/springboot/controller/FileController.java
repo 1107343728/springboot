@@ -24,18 +24,16 @@ public class FileController {
     @PostMapping("/upload")
     public String upload(@RequestParam("file") MultipartFile files[]) {
         try {
-            String destImgPath = "d:\\test.jpg";
-            String pressText = "您好，2019";
-            String fontName = "黑体";
-            int fontStype = Font.BOLD + Font.ITALIC;
-            int fontSize = 20;
-            ImageUtil.Location location = ImageUtil.Location.RIGHT_TOP;
-            Color color = Color.WHITE;
-            float aph = 1f;
-            ImageUtil.pressText(files[0].getInputStream(), destImgPath, pressText, fontName, fontStype, fontSize,location,color,aph);
-            System.out.println(files[0].getBytes());
-            byte[] bytes = Files.toByteArray(new File(destImgPath));
-            System.out.println(bytes);
+            if(files != null && files.length > 0) {
+                String tmpdir = System.getProperty("java.io.tmpdir");
+                for(MultipartFile file : files) {
+                    String destImgPath = tmpdir + File.separator + file.getOriginalFilename();
+                    ImageUtil.pressText(file.getInputStream(), destImgPath, "测试20190805");
+                    System.out.println(files[0].getBytes());
+                    byte[] bytes = Files.toByteArray(new File(destImgPath));
+                    System.out.println(bytes);
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

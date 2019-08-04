@@ -262,6 +262,28 @@ public final class ImageUtil {
     }
 
     /**
+     * 给图片加文字水印
+     *
+     * @param inputStream 待加水印的图片输入流
+     * @param destImgPath 加水印后的图片地址
+     * @param pressText 水印文字
+     */
+    public static void pressText(InputStream inputStream, String destImgPath,String pressText) throws Exception {
+        try {
+            String fontName = "黑体";
+            int fontStyle = Font.BOLD + Font.ITALIC;
+            int fontSize = 20;
+            Location location = ImageUtil.Location.RIGHT_BOTTOM;
+            Color color = Color.WHITE;
+            float alpha = 1f;
+            pressText(inputStream,destImgPath,pressText,fontName,fontStyle,fontSize,location,color,alpha);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    /**
      * 文件保存
      *
      * @param link 图片链接
