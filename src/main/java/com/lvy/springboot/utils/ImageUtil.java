@@ -195,8 +195,70 @@ public final class ImageUtil {
             e.printStackTrace();
             throw e;
         }
+    }
 
+    /**
+     * 给图片加文字水印
+     *
+     * @param inputStream 待加水印的图片输入流
+     * @param destImgPath 加水印后的图片地址
+     * @param pressText 水印文字
+     * @param fontName  字体名称
+     * @param fontStyle 字体风格
+     * @param fontSize  字体大小
+     * @param location  字体位置
+     * @param color  颜色
+     * @param alpha  透明度
+     */
+    public static void pressText(InputStream inputStream, String destImgPath,String pressText, String fontName, int fontStyle,
+                                 int fontSize, Location location,Color color, float alpha) throws Exception {
+        try {
+            int textWidth = getFontWidth(fontName, fontStyle, fontSize, pressText);
+            Image src = ImageIO.read(inputStream);
+            int width = src.getWidth(null);
+            int height = src.getHeight(null);
+            BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+            //得到画笔
+            Graphics2D g = image.createGraphics();
+            g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+            g.drawImage(src.getScaledInstance(width, height, Image.SCALE_SMOOTH), 0, 0, null);
+            g.setColor(color);
+            //设置字段
+            g.setFont(new Font(fontName, fontStyle, fontSize));
+            //设置透明度
+            g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP,
+                    alpha));
+            //位置x,y
+            int x = 0, y = 0;
+            //根据条件设置位置
+            if(location.equals(Location.LEFT_TOP)) {
+                x = 30;
+                y = 30;
+            }
+            else if (location.equals(Location.RIGHT_TOP)) {
+                x = width - textWidth - 30;
+                y = 30;
+            } else if (location.equals(Location.LEFT_BOTTOM)) {
+                x += 30;
+                y = height - 30;
+            } else if (location.equals(Location.RIGHT_BOTTOM)) {
+                x = width - textWidth - 30;
+                y = height - 30;
+            } else {
+                x = (width - textWidth) / 2;
+                y = (height) / 2;
+            }
+            g.drawString(pressText, x, y);
+            g.dispose();
 
+            String formatName = getFileFormat(destImgPath);
+            //保存图片到指定路径
+            ImageIO.write(image,formatName,new File(destImgPath));
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
     }
 
     /**
