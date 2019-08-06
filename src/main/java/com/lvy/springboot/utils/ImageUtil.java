@@ -64,6 +64,27 @@ public final class ImageUtil {
      * @param srcImgPath 待加水印的图片地址
      * @param destImgPath 加水印后的图片地址
      * @param pressText 水印文字
+     */
+    public static void pressText(String srcImgPath, String destImgPath,String pressText) throws Exception {
+        //校验必须的参数是否为空
+        if(StringUtils.isBlank(srcImgPath) || StringUtils.isBlank(destImgPath) || StringUtils.isBlank(pressText)) {
+            throw new Exception("必须参数:｛srcImgPath、destImgPath、pressText｝不能为空");
+        }
+        try {
+            InputStream inputStream = new FileInputStream(new File(srcImgPath));
+            pressText(inputStream,destImgPath,pressText,FONT_NAME_DEFAULT,FONT_STYLE_DEFAULT,FONT_SIZE_DEFAULT,LOCATION_DEFAULT,COLOR_DEFAULT,ALPHA_DEFAULT);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    /**
+     * 给图片加文字水印
+     *
+     * @param srcImgPath 待加水印的图片地址
+     * @param destImgPath 加水印后的图片地址
+     * @param pressText 水印文字
      * @param fontName  字体名称
      * @param fontStyle 字体风格
      * @param fontSize  字体大小
@@ -71,9 +92,9 @@ public final class ImageUtil {
      * @param color  颜色
      * @param alpha  透明度
      */
-	public static void pressText(String srcImgPath, String destImgPath,String pressText, String fontName, int fontStyle,
+    public static void pressText(String srcImgPath, String destImgPath,String pressText, String fontName, int fontStyle,
                                  int fontSize, Location location,Color color, float alpha) throws Exception {
-	    if(StringUtils.isNotBlank(srcImgPath)) {
+        if(StringUtils.isNotBlank(srcImgPath)) {
             InputStream inputStream = new FileInputStream(new File(srcImgPath));
             pressText(inputStream,destImgPath,pressText,fontName,fontStyle,fontSize,location,color,alpha);
         }
@@ -93,8 +114,8 @@ public final class ImageUtil {
      * @param color  颜色
      * @param alpha  透明度
      */
-    public static void pressText(InputStream inputStream, String destImgPath,String pressText, String fontName, int fontStyle,
-                                 int fontSize, Location location,Color color, float alpha) throws Exception {
+    public static synchronized void pressText(InputStream inputStream, String destImgPath,String pressText, String fontName, int fontStyle,
+                                              int fontSize, Location location,Color color, float alpha) throws Exception {
         //校验必须的参数是否为空
         if(inputStream == null || StringUtils.isBlank(destImgPath) || StringUtils.isBlank(pressText)) {
             throw new Exception("必须参数:｛srcImgPath、destImgPath、pressText｝不能为空");
@@ -184,7 +205,7 @@ public final class ImageUtil {
      * @param pressText 输入文本
      * @return 文字所占用的宽带
      */
-	public static int getFontWidth(String fontName, int fontStyle, int fontSize, String pressText) {
+    public static int getFontWidth(String fontName, int fontStyle, int fontSize, String pressText) {
         Font f = new Font(fontName, fontStyle, fontSize);
         FontMetrics fm = sun.font.FontDesignMetrics.getMetrics(f);
         return fm.stringWidth(pressText);
@@ -240,7 +261,7 @@ public final class ImageUtil {
 
     public static void main(String[] args) {
         try {
-            pressText("D:\\pictrue\\abcd.jpeg","D:/a/b/imgout/r12.jpg", "深圳罗湖口岸20190801161258", "黑体", Font.BOLD + Font.ITALIC, 20, Location.RIGHT_TOP,Color.WHITE,1f);
+            pressText("D:\\pictrue\\abcd.jpeg","D:\\pictrue\\abcd.jpeg", "深圳罗湖口岸20190801161258", "黑体", Font.BOLD + Font.ITALIC, 20, Location.RIGHT_BOTTOM,Color.WHITE,1f);
         } catch (Exception e) {
             e.printStackTrace();
         }
