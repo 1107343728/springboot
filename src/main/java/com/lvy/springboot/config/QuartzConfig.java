@@ -21,7 +21,7 @@ public class QuartzConfig {
 		return JobBuilder.newJob(TestJob.class).withIdentity("testJob").storeDurably().build();
 	}
 	@Bean
-	public Trigger sailQuartzTrigger() {
+	public Trigger testQuartzTrigger() {
 		// 方式一：用指定调度方法
 		/*SimpleScheduleBuilder scheduleBuilder = SimpleScheduleBuilder.simpleSchedule()
 		       .withIntervalInSeconds(30) //30
