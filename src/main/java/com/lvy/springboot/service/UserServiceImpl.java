@@ -1,7 +1,9 @@
 package com.lvy.springboot.service;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.lvy.springboot.entity.User;
 import com.lvy.springboot.repository.UserRepository;
+import com.lvy.springboot.vo.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -60,5 +62,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> findByNameLike(String name) {
         return userRepository.findByNameIsLike(name);
+    }
+
+    @Override
+    public void add(UserVo uservo) {
+        User user = new User();
+        BeanUtil.copyProperties(uservo,user);
+
+        userRepository.save(user);
+
     }
 }
